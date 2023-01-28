@@ -3,3 +3,4 @@ requests~=2.28.1
 voluptuous
 pytest-voluptuous
 python-dotenv~=0.21.0
+mimesis
