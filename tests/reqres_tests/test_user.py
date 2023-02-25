@@ -12,7 +12,7 @@ def test_create_user():
         "job": person.occupation(),
     }
 
-    response: Response = api.test_session.post(url="/users", data=new_user_data)
+    response: Response = api.reqres_session.post(url="/users", data=new_user_data)
 
     assert response.status_code == 201
     assert response.json()["name"] == new_user_data["name"]
@@ -27,7 +27,7 @@ def test_update_user():
         "job": person.occupation(),
     }
 
-    response: Response = api.test_session.put(url="/users/2", data=new_user_data)
+    response: Response = api.reqres_session.put(url="/users/2", data=new_user_data)
 
     assert response.status_code == 200
     assert response.json()["name"] == new_user_data["name"]
@@ -35,12 +35,12 @@ def test_update_user():
 
 
 def test_get_unexisting_page_users_list():
-    response_first: Response = api.test_session.get(
+    response_first: Response = api.reqres_session.get(
         url="/users", params={"per_page": 20, "page": 1}
     )
     maximum_pages = response_first.json()["total_pages"]
 
-    response_second: Response = api.test_session.get(
+    response_second: Response = api.reqres_session.get(
         url="/users", params={"per_page": 20, "page": maximum_pages + 1}
     )
 
