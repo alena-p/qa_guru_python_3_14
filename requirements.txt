@@ -6,3 +6,4 @@ python-dotenv~=0.21.0
 mimesis~=7.0.0
 selene~=2.0.0b14
 allure-pytest
+curlify
