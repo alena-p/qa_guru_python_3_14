@@ -1,5 +1,4 @@
 from model import api
-from requests import Response
 
 
 def add_product_to_cart_via_list(product, customer=""):

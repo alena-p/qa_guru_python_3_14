@@ -1,3 +1,4 @@
+import allure
 from requests import Session
 
 
@@ -11,6 +12,7 @@ class BaseSession(Session):
         if "headers" in kwargs:
             headers = kwargs.pop("headers")
 
-        return super().request(
-            method, url=f"{self.base_url}{url}", headers=headers, **kwargs
-        )
+        with allure.step(f"{method} {url}"):
+            return super().request(
+                method, url=f"{self.base_url}{url}", headers=headers, **kwargs
+            )
