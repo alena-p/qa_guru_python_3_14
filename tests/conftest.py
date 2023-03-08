@@ -15,3 +15,12 @@ def browser_config():
     browser.config.window_height = 900
 
     yield browser
+
+
+def pytest_addoption(parser):
+    parser.addoption("--env", default="prod")
+
+
+@pytest.fixture(scope="session")
+def env(request):
+    return request.config.getoption("--env")

@@ -49,8 +49,8 @@ def console_logger(function):
 
 class BaseSession(Session):
     def __init__(self, **kwargs):
+        super(BaseSession, self).__init__()
         self.base_url = kwargs.pop("base_url")
-        super().__init__()
 
     @allure_logger
     @console_logger
