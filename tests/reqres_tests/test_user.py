@@ -5,7 +5,7 @@ from requests import Response
 from mimesis import Person
 
 
-def test_create_user():
+def test_create_user(env):
     with allure.step("Prepare test data"):
         person = Person(Locale.EN)
         new_user_data = {
@@ -13,7 +13,7 @@ def test_create_user():
             "job": person.occupation(),
         }
     with allure.step("Create user"):
-        response: Response = api.reqres_session.post(url="/users", data=new_user_data)
+        response: Response = api.Reqres(env).create_user(data=new_user_data)
     with allure.step("Check response is successful"):
         assert response.status_code == 201
         assert response.json()["name"] == new_user_data["name"]
@@ -21,7 +21,7 @@ def test_create_user():
         assert response.json()["id"]
 
 
-def test_update_user():
+def test_update_user(env):
     with allure.step("Prepare test data"):
         person = Person(Locale.EN)
         new_user_data = {
@@ -29,22 +29,22 @@ def test_update_user():
             "job": person.occupation(),
         }
     with allure.step("Update user"):
-        response: Response = api.reqres_session.put(url="/users/2", data=new_user_data)
+        response: Response = api.Reqres(env).update_user(data=new_user_data)
     with allure.step("Check response is successful"):
         assert response.status_code == 200
         assert response.json()["name"] == new_user_data["name"]
         assert response.json()["job"] == new_user_data["job"]
 
 
-def test_get_unexisting_page_users_list():
+def test_get_unexisting_page_users_list(env):
     with allure.step("Get maximum page qty"):
-        response_first: Response = api.reqres_session.get(
-            url="/users", params={"per_page": 20, "page": 1}
+        response_first: Response = api.Reqres(env).users_list(
+            params={"per_page": 20, "page": 1}
         )
         maximum_pages = response_first.json()["total_pages"]
     with allure.step("Get page over range"):
-        response_second: Response = api.reqres_session.get(
-            url="/users", params={"per_page": 20, "page": maximum_pages + 1}
+        response_second: Response = api.Reqres(env).users_list(
+            params={"per_page": 20, "page": maximum_pages + 1}
         )
     with allure.step("Check data is empty"):
         assert response_second.status_code == 200

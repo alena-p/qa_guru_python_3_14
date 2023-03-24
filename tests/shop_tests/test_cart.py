@@ -1,13 +1,13 @@
 import allure
 from selene import have
 
-from model import cart
+from model import api
 from selene.support.shared import browser
 
 
-def test_verify_counter_after_adding():
+def test_verify_counter_after_adding(env):
     with allure.step("Add product to cart"):
-        customer = cart.add_product_to_cart_via_list("31/1/1")
+        customer = api.Shop(env).add_product_to_cart_via_list("31/1/1")
     with allure.step("Set customer cookie"):
         browser.open("/Themes/DefaultClean/Content/images/logo.png")
         browser.driver.add_cookie({"name": "Nop.customer", "value": customer})
@@ -16,9 +16,9 @@ def test_verify_counter_after_adding():
         browser.element(".cart-qty").should(have.text("1"))
 
 
-def test_verify_cart_clearing():
+def test_verify_cart_clearing(env):
     with allure.step("Add product to cart"):
-        customer = cart.add_product_to_cart_via_list("31/1/1")
+        customer = api.Shop(env).add_product_to_cart_via_list("31/1/1")
     with allure.step("Set customer cookie"):
         browser.open("/Themes/DefaultClean/Content/images/logo.png")
         browser.driver.add_cookie({"name": "Nop.customer", "value": customer})
@@ -32,10 +32,10 @@ def test_verify_cart_clearing():
         )
 
 
-def test_verify_cart_deleting_item():
+def test_verify_cart_deleting_item(env):
     with allure.step("Add products to cart"):
-        customer = cart.add_product_to_cart_via_list("31/1/1")
-        cart.add_product_to_cart_via_list("/36/1/1", customer)
+        customer = api.Shop(env).add_product_to_cart_via_list("31/1/1")
+        api.Shop(env).add_product_to_cart_via_list("/36/1/1", customer)
     with allure.step("Set customer cookie"):
         browser.open("/Themes/DefaultClean/Content/images/logo.png")
         browser.driver.add_cookie({"name": "Nop.customer", "value": customer})
@@ -49,9 +49,9 @@ def test_verify_cart_deleting_item():
         assert len(browser.elements(".cart-item-row")) == 1
 
 
-def test_verify_changing_qty():
+def test_verify_changing_qty(env):
     with allure.step("Add products to cart"):
-        customer = cart.add_product_to_cart_via_list("14/1/1")
+        customer = api.Shop(env).add_product_to_cart_via_list("14/1/1")
     with allure.step("Set customer cookie"):
         browser.open("/Themes/DefaultClean/Content/images/logo.png")
         browser.driver.add_cookie({"name": "Nop.customer", "value": customer})

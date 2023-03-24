@@ -10,5 +10,5 @@ class Hosts:
         }[env]
         self.reqres = {
             "stage": "https://stage-reqres.in",
-            "prod": "https://reqres.in",
+            "prod": "https://reqres.in/api",
         }[env]
